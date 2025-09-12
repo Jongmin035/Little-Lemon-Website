@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import Main from './Main';
 import Header from './Header';
 import Nav from './Nav';
 import Footer from './Footer';
@@ -11,7 +11,7 @@ function App() {
         <header className="header"><Header/></header>
         <nav className="nav"><Nav/></nav>
       </section>
-      <main className="main"></main>
+      <main className="main"><Main/></main>
       <footer className="footer"><Footer/></footer>
     </section>
   );
