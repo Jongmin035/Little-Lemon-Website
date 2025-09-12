@@ -67,7 +67,9 @@
   display: inline-block;
 }
 
-.nav ul li a {
+.nav ul li a,
+.doormat p a,
+.footer a {
   color: #333333;
   text-decoration: none;
   padding: 8px 16px;
@@ -478,6 +480,11 @@
 .doormat {
   grid-column: 3 / 4;
   text-align: left;
+}
+
+.doormat p a {
+  display: block;
+  margin: 4px 0;
 }
 
 .contact {

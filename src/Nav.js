@@ -1,19 +1,23 @@
+import { Link } from 'react-router-dom';
+
 function Nav() {
-    return (
-        <ul>
-            <li><a href='#Home'>Home</a></li>
-            <li><a href='#About'>About</a></li>
-            <li><a href='#Menu'>Menu</a></li>
-            <li><a href='#Reservations'>Reservations</a></li>
-            <li><a href='#Order'>
-                <span className="order-online">
-                    <span className="order-word">Order</span>
-                    <span className="online-word">Online</span>
-                </span>
-            </a></li>
-            <li><a href='#Login'>Login</a></li>
-        </ul>
-    );
+  return (
+    <ul>
+      <li><Link to="/">Home</Link></li>
+      <li><Link to="/about">About</Link></li>
+      <li><Link to="/menu">Menu</Link></li>
+      <li><Link to="/reservations">Reservations</Link></li>
+      <li>
+        <Link to="/order">
+          <span className="order-online">
+            <span className="order-word">Order</span>
+            <span className="online-word">Online</span>
+          </span>
+        </Link>
+      </li>
+      <li><Link to="/login">Login</Link></li>
+    </ul>
+  );
 }
 
 export default Nav;
