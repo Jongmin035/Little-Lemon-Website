@@ -497,6 +497,18 @@
   text-align: left;
 }
 
+.confirmedBooking {
+  text-align: center;
+  margin: 40px;
+}
+
+.confirmedBooking h1 {
+  font-family: "Markazi Text", serif;
+  font-weight: bold;
+  font-size: 64px;
+  color: #333333;
+}
+
 @media (max-width: 768px) {
   .hero {
     grid-template-columns: 1fr; /* stack */

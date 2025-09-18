@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import React, { useState, useReducer } from 'react';
 import Header from './Header';
 import Nav from './Nav';
@@ -8,16 +8,18 @@ import Hero from './Hero';
 import Highlight from './Highlight';
 import Testimonial from './Testimonial';
 import BookingPage from './Booking';
+import ConfirmedBooking from './confirmedBooking';
 import About from './About';
 
 function initializeTimes() {
-  return ["17:00", "18:00", "19:00", "20:00", "21:00", "22:00"];
+  const today = new Date();
+  return fetchAPI(today);
 }
 
 function timesReducer(state, action) {
   switch (action.type) {
     case "update_time":
-      return initializeTimes();
+      return fetchAPI(new Date(action.date));
     default:
       return state;
   }
@@ -33,6 +35,8 @@ function App() {
 
   const [availableTimes, updateTimes] = useReducer(timesReducer, [], initializeTimes);
 
+  const navigate = useNavigate();
+
   function handleChange(e) {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -45,56 +49,67 @@ function App() {
     }
   }
 
-  function handleSubmit(e) {
+  function submitForm(e) {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    const success = submitAPI(formData);
+    if (success) {
+      console.log("Successfully submitted.");
+      navigate("/confirmedBooking");
+    } else {
+      console.error("Form submission failed.");
+    }
   }
 
   return (
-    <Router>
-      <section className="container">
-        <section className="heading">
-          <header className="header"><Header /></header>
-          <nav className="nav"><Nav /></nav>
-        </section>
-
-        <main className="main">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <Hero />
-                  <Highlight />
-                  <Testimonial />
-                  <About />
-                </>
-              }
-            />
-            <Route path="/hero" element={<Hero />} />
-            <Route path="/highlight" element={<Highlight />} />
-            <Route path="/testimonial" element={<Testimonial />} />
-            <Route path="/about" element={<About />} />
-            <Route
-              path="/reservations"
-              element={
-                <BookingPage
-                  formData={formData}
-                  availableTimes={availableTimes}
-                  handleChange={handleChange}
-                  handleSubmit={handleSubmit}
-                  updateTimes={updateTimes}
-                />
-              }
-            />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-        </main>
-
-        <footer className="footer"><Footer /></footer>
+    <section className="container">
+      <section className="heading">
+        <header className="header"><Header /></header>
+        <nav className="nav"><Nav /></nav>
       </section>
-    </Router>
+
+      <main className="main">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <Hero />
+                <Highlight />
+                <Testimonial />
+                <About />
+              </>
+            }
+          />
+          <Route path="/hero" element={<Hero />} />
+          <Route path="/highlight" element={<Highlight />} />
+          <Route path="/testimonial" element={<Testimonial />} />
+          <Route path="/about" element={<About />} />
+          <Route
+            path="/reservations"
+            element={
+              <BookingPage
+                formData={formData}
+                availableTimes={availableTimes}
+                handleChange={handleChange}
+                handleSubmit={submitForm}
+                updateTimes={updateTimes}
+              />
+            }
+          />
+          <Route path="/confirmedBooking" element={<ConfirmedBooking />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      </main>
+
+      <footer className="footer"><Footer /></footer>
+    </section>
   );
 }
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <Router>
+      <App />
+    </Router>
+  );
+}
