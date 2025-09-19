@@ -62,12 +62,14 @@ function App() {
 
   return (
     <section className="container">
-      <section className="heading">
-        <header className="header"><Header /></header>
-        <nav className="nav"><Nav /></nav>
-      </section>
+      <header className="header">
+        <Header />
+        <nav className="nav" aria-label="Main navigation">
+          <Nav />
+        </nav>
+      </header>
 
-      <main className="main">
+      <main className="main" aria-label="Main content">
         <Routes>
           <Route
             path="/"
@@ -101,7 +103,9 @@ function App() {
         </Routes>
       </main>
 
-      <footer className="footer"><Footer /></footer>
+      <footer className="footer" aria-label="Footer">
+        <Footer />
+      </footer>
     </section>
   );
 }

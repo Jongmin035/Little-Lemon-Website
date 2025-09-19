@@ -4,9 +4,8 @@ import App from "./App";
 
 describe("Booking form via App routing", () => {
   test("renders booking form when navigating to /reservations", () => {
-    render(<App />);
-
     window.history.pushState({}, "Reservations Page", "/reservations");
+    render(<App />);
 
     expect(screen.getByLabelText(/choose date/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/choose time/i)).toBeInTheDocument();
@@ -18,9 +17,8 @@ describe("Booking form via App routing", () => {
   });
 
   test("can fill out and submit the booking form", () => {
-    render(<App />);
-
     window.history.pushState({}, "Reservations Page", "/reservations");
+    render(<App />);
 
     const dateInput = screen.getByLabelText(/choose date/i);
     const timeSelect = screen.getByLabelText(/choose time/i);
@@ -38,5 +36,19 @@ describe("Booking form via App routing", () => {
     fireEvent.click(submitBtn);
 
     expect(submitBtn).toBeInTheDocument();
+  });
+
+  test("date input should only allow selecting dates starting from tomorrow", () => {
+    window.history.pushState({}, "Reservations Page", "/reservations");
+    render(<App />);
+
+    const dateInput = screen.getByLabelText(/choose date/i);
+
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const expectedMin = tomorrow.toISOString().split("T")[0];
+
+    expect(dateInput).toHaveAttribute("min", expectedMin);
   });
 });
